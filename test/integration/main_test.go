@@ -5,8 +5,10 @@ import (
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"os"
-	"social-app/internal/route"
-	"social-app/pkg/util"
+	"path/filepath"
+	"social-app/app/route"
+	"social-app/pkg/config"
+	"social-app/pkg/logger"
 	"testing"
 )
 
@@ -26,11 +28,12 @@ func TestMain(m *testing.M) {
 }
 
 func setup() {
-	if err := util.InitLogger(); err != nil {
+	logsPath := filepath.Join("..", "..", "logs")
+	if err := logger.InitLogger(logsPath); err != nil {
 		logrus.Fatalf("Error creating log directory: %v", err)
 	}
 
-	if err := util.InitConfig(); err != nil {
+	if err := config.InitConfig(filepath.Join("..", "..")); err != nil {
 		logrus.Fatalf("Error load file env file: %v", err)
 	}
 

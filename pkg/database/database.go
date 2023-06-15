@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"os"
-	entity "social-app/internal/entity"
+	"social-app/app/model"
 )
 
 func InitMysql() (*gorm.DB, error) {
@@ -31,11 +31,12 @@ func InitMysql() (*gorm.DB, error) {
 	tx := db.Begin()
 
 	if err := tx.AutoMigrate(
-		&entity.User{},
-		&entity.Post{},
-		&entity.UserFollower{},
-		&entity.UserLikedPost{},
-		&entity.UserViewedPost{},
+		&model.User{},
+		&model.Post{},
+		&model.UserFollower{},
+		&model.UserLikedPost{},
+		&model.UserViewedPost{},
+		&model.Comment{},
 	); err != nil {
 		log.Errorf("Failed to run database migration: %s", err.Error())
 		tx.Rollback()

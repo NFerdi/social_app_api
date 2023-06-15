@@ -6,8 +6,8 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/stretchr/testify/assert"
 	"net/http"
-	dto2 "social-app/internal/dto"
-	"social-app/internal/entity"
+	dto2 "social-app/app/dto"
+	"social-app/app/model"
 	"testing"
 )
 
@@ -34,9 +34,9 @@ func getFollowerID() (uint, error) {
 		return 0, err
 	}
 
-	var user2 entity.User
+	var user2 model.User
 
-	if err := getDatabaseConnection().Model(&entity.User{}).Where("username = ?", signupDto.Username).First(&user2).Error; err != nil {
+	if err := getDatabaseConnection().Model(&model.User{}).Where("username = ?", signupDto.Username).First(&user2).Error; err != nil {
 		return 0, err
 	}
 

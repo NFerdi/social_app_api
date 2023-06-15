@@ -13,7 +13,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	dto2 "social-app/internal/dto"
+	dto2 "social-app/app/dto"
 	"social-app/pkg/database"
 )
 

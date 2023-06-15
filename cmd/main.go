@@ -6,20 +6,21 @@ import (
 	"github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
-	"social-app/internal/middleware"
-	"social-app/internal/route"
+	"social-app/app/middleware"
+	"social-app/app/route"
+	"social-app/pkg/config"
 	"social-app/pkg/database"
-	"social-app/pkg/util"
+	"social-app/pkg/logger"
 	"sync"
 	"syscall"
 )
 
 func main() {
-	if err := util.InitLogger(); err != nil {
+	if err := logger.InitLogger("logs"); err != nil {
 		logrus.Fatalf("Error creating log directory: %v", err)
 	}
 
-	if err := util.InitConfig(); err != nil {
+	if err := config.InitConfig("./"); err != nil {
 		logrus.Fatalf("Error load file env file: %v", err)
 	}
 
@@ -33,7 +34,6 @@ func main() {
 
 	app.Use(
 		middleware.LoggerMiddleware,
-		middleware.CsrfMiddleware,
 	)
 
 	apiV1 := app.Group("/api/v1")

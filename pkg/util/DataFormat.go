@@ -1,21 +1,20 @@
 package util
 
 import (
-	dto2 "social-app/internal/dto"
-	"social-app/internal/entity"
+	"social-app/app/model"
 )
 
-func ConvertToUserPosts(posts []entity.Post) []dto2.PostWithUser {
-	var displayPosts []dto2.PostWithUser
+func ConvertToUserPosts(posts []model.Post) []model.PostWithUser {
+	var displayPosts []model.PostWithUser
 
 	for _, post := range posts {
-		previewUser := dto2.PreviewUser{
+		previewUser := model.PreviewUser{
 			ID:             post.User.ID,
 			Username:       post.User.Username,
 			ProfilePicture: post.User.ProfilePicture,
 		}
 
-		var newDisplayPost = dto2.PostWithUser{
+		var newDisplayPost = model.PostWithUser{
 			ID:           post.ID,
 			Image:        post.Image,
 			Caption:      post.Caption,

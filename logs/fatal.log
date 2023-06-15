@@ -1,0 +1,2 @@
+time="2023-06-14 20:15:17" level=fatal msg="Error load file env file: open C:\\Users\\USER/dev.env: The system cannot find the file specified."
+time="2023-06-14 20:22:17" level=fatal msg="Error load file env file: open C:\\Users\\USER/dev.env: The system cannot find the file specified."

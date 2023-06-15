@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"net/http"
-	"social-app/internal/entity"
+	"social-app/app/model"
 	"strconv"
 	"testing"
 )
@@ -57,12 +57,31 @@ func TestCreatePost(t *testing.T) {
 		assert.Equal(t, "validation_error", response.Type)
 	})
 
-	var post entity.Post
+	var post model.Post
 
-	err = getDatabaseConnection().Model(&entity.Post{}).Where("caption = ?", "test").First(&post).Error
+	err = getDatabaseConnection().Model(&model.Post{}).Where("caption = ?", "test").First(&post).Error
 	assert.Nil(t, err)
 
 	postID = strconv.FormatUint(uint64(post.ID), 10)
+}
+func TestGetUserFeed(t *testing.T) {
+	token, err := getBearerToken(app)
+	assert.Nil(t, err)
+
+	t.Run("SuccessGetUserFeed", func(t *testing.T) {
+		req, err := http.NewRequest(http.MethodGet, "/api/v1/post", nil)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+		assert.Nil(t, err)
+
+		res, err := app.Test(req)
+		assert.Nil(t, err)
+
+		response, err := GetResponseSuccess(res)
+		assert.Nil(t, err)
+
+		assert.Equal(t, "successfully to get feed post", response.Message)
+		assert.NotNil(t, response.Data)
+	})
 }
 
 func TestAddUserViewedPost(t *testing.T) {
@@ -84,7 +103,6 @@ func TestAddUserViewedPost(t *testing.T) {
 		assert.Equal(t, fmt.Sprintf("successfully to see post with id %s", postID), response.Message)
 	})
 }
-
 func TestGetViewersOnPost(t *testing.T) {
 	token, err := getBearerToken(app)
 	assert.Nil(t, err)
@@ -101,26 +119,6 @@ func TestGetViewersOnPost(t *testing.T) {
 		assert.Nil(t, err)
 
 		assert.Equal(t, fmt.Sprintf("successfully to get viewers from post id %s", postID), response.Message)
-	})
-}
-
-func TestGetUserFeed(t *testing.T) {
-	token, err := getBearerToken(app)
-	assert.Nil(t, err)
-
-	t.Run("SuccessGetUserFeed", func(t *testing.T) {
-		req, err := http.NewRequest(http.MethodGet, "/api/v1/post", nil)
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
-		assert.Nil(t, err)
-
-		res, err := app.Test(req)
-		assert.Nil(t, err)
-
-		response, err := GetResponseSuccess(res)
-		assert.Nil(t, err)
-
-		assert.Equal(t, "successfully to get feed post", response.Message)
-		assert.NotNil(t, response.Data)
 	})
 }
 
@@ -142,7 +140,24 @@ func TestLikePost(t *testing.T) {
 		assert.Equal(t, fmt.Sprintf("successfully to like a post with id %s", postID), response.Message)
 	})
 }
+func TestGetUserLikedPost(t *testing.T) {
+	token, err := getBearerToken(app)
+	assert.Nil(t, err)
 
+	t.Run("SuccessGetUserLikedPost", func(t *testing.T) {
+		req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("/api/v1/post/%s/likes", postID), nil)
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+		assert.Nil(t, err)
+
+		res, err := app.Test(req)
+		assert.Nil(t, err)
+
+		response, err := GetResponseSuccess(res)
+		assert.Nil(t, err)
+
+		assert.Equal(t, fmt.Sprintf("managed to fetch user data who liked posts with id %s", postID), response.Message)
+	})
+}
 func TestUnlikePost(t *testing.T) {
 	token, err := getBearerToken(app)
 	assert.Nil(t, err)
@@ -162,21 +177,9 @@ func TestUnlikePost(t *testing.T) {
 	})
 }
 
-func TestGetUserLikedPost(t *testing.T) {
-	token, err := getBearerToken(app)
-	assert.Nil(t, err)
+func TestCreatePostComment(t *testing.T) {
 
-	t.Run("SuccessGetUserLikedPost", func(t *testing.T) {
-		req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("/api/v1/post/%s/likes", postID), nil)
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
-		assert.Nil(t, err)
+}
+func TestGetPostComments(t *testing.T) {
 
-		res, err := app.Test(req)
-		assert.Nil(t, err)
-
-		response, err := GetResponseSuccess(res)
-		assert.Nil(t, err)
-
-		assert.Equal(t, fmt.Sprintf("managed to fetch user data who liked posts with id %s", postID), response.Message)
-	})
 }

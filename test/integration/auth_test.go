@@ -5,7 +5,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/stretchr/testify/assert"
 	"net/http"
-	"social-app/internal/dto"
+	"social-app/app/dto"
 	"testing"
 )
 
