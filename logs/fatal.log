@@ -1,2 +1,3 @@
 time="2023-06-14 20:15:17" level=fatal msg="Error load file env file: open C:\\Users\\USER/dev.env: The system cannot find the file specified."
 time="2023-06-14 20:22:17" level=fatal msg="Error load file env file: open C:\\Users\\USER/dev.env: The system cannot find the file specified."
+time="2023-06-16 09:52:10" level=fatal msg="Error to open mysql database connection: Error 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key"

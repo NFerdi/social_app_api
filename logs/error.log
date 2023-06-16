@@ -1,0 +1,1 @@
+time="2023-06-16 09:52:10" level=error msg="Failed to run database migration: Error 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key"
