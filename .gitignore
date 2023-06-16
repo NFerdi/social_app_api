@@ -20,7 +20,7 @@
 # Go workspace file
 go.work
 
-log/
+logs/
 
 dev.env
 test.env
